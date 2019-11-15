@@ -5,11 +5,15 @@ services:
     image: mariadb:10.3
     environment:
       MYSQL_ROOT_PASSWORD: admin
+      MYSQL_DATABASE: db
+      MYSQL_USER: dolibarr
+      MYSQL_PASSWORD: dolibarr
     networks:
       - net
 
   dolibarr:
-    build: .
+          # build: .
+    image: mazzyst/dolibarr
     ports:
       - "80:80"
     depends_on:
