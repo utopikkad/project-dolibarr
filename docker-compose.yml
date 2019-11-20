@@ -3,6 +3,8 @@ services:
 
   db:
     image: mariadb:10.3
+    volumes:
+      - db-data:/var/lib/mysql
     environment:
       MYSQL_ROOT_PASSWORD: admin
       MYSQL_DATABASE: db
@@ -12,13 +14,21 @@ services:
       - net
 
   dolibarr:
-          # build: .
-    image: mazzyst/dolibarr
+    build: .
     ports:
       - "80:80"
     depends_on:
       - "db"
     networks:
       - net
+    volumes:
+      - dolibar-config:/var/www/html/conf
+      - dolibar-documents:/var/www/html/documents
+
 networks:
-    net:
+  net:
+
+volumes:
+  db-data:
+  dolibar-config:
+  dolibar-documents:

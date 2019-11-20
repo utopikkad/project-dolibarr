@@ -18,6 +18,9 @@ RUN unzip -d /usr/src /tmp/dolibarr-10-0 \
 RUN touch htdocs/conf/conf.php \
     && chown www-data htdocs/conf/conf.php
 
+RUN mkdir documents \
+    && chown www-data documents
+
 RUN apt-get update && apt-get install -y zlib1g-dev libicu-dev g++
 RUN docker-php-ext-configure intl
 RUN docker-php-ext-install intl
@@ -30,6 +33,7 @@ RUN apt-get update && apt-get install -y \
 
 RUN docker-php-ext-install mysqli && docker-php-ext-enable mysqli
 
+RUN docker-php-ext-install calendar && docker-php-ext-configure calendar
 
 RUN sed -i -e  "s/\/var\/www\/html/\/var\/www\/html\/htdocs/g" \
     /etc/apache2/sites-enabled/000-default.conf
